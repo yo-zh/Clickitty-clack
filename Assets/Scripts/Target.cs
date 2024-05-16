@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -18,10 +19,14 @@ public class Target : MonoBehaviour
         transform.position = RandomPosition();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
-        
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other) // MB check for collision in case targets collide w/ each other at spawn, because it looks bad
+    {
+        Destroy(gameObject);
     }
 
     Vector3 RandomUpwardForce()
