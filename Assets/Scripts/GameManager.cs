@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> targets;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float spawnRate = 1.0f;
+
+    private void Start()
     {
-        
+        StartCoroutine(SpawnTarget());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator SpawnTarget()
     {
-        
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(spawnRate);
+            int rangomIndex = Random.Range(0, targets.Count);
+            Instantiate(targets[rangomIndex]);
+        }
     }
 }
