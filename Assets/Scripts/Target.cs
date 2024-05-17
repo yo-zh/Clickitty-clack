@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    private GameManager gameManager;
+    [SerializeField] private GameObject target;
+    [SerializeField] private ParticleSystem explosionParticle;
+
+    [SerializeField] private int amountOfPoints;
+
     private Rigidbody targetRb;
     private float minSpeed = 10;
     private float maxSpeed = 20;
@@ -13,6 +16,8 @@ public class Target : MonoBehaviour
     private float ySpawnPosition = -1;
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
         targetRb = GetComponent<Rigidbody>();
         targetRb.AddForce(RandomUpwardForce(), ForceMode.Impulse);
         targetRb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
@@ -21,12 +26,27 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        if (gameManager.isGameActive)
+        {
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            gameManager.UpdateScore(amountOfPoints);
+
+            if (gameObject.CompareTag("BadTarget"))
+            {
+                gameManager.IncreaseExplosions();
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other) // MB check for collision in case targets collide w/ each other at spawn, because it looks bad
     {
         Destroy(gameObject);
+
+        if (!gameObject.CompareTag("BadTarget"))
+        {
+            gameManager.UpdateScore(-amountOfPoints);
+        }
     }
 
     Vector3 RandomUpwardForce()

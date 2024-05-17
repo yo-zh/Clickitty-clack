@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7990318237172264857}
   m_Layer: 0
   m_Name: OrangeCat
-  m_TagString: Untagged
+  m_TagString: GoodTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae2e0252a152f44ab3b39412d067fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  explosionParticle: {fileID: 969278227914863773, guid: 0fda24ea2738cf143b5eb7e2cafc1224, type: 3}
+  amountOfPoints: 1
 --- !u!54 &3271127960678563996
 Rigidbody:
   m_ObjectHideFlags: 0
