@@ -403,10 +403,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets:
+  - {fileID: 5007372537801984974, guid: c4a60f1ca2ae5da49bef7cc7934791cb, type: 3}
+  - {fileID: 5007372537801984974, guid: d48094eacf78bfb44ae178772043a756, type: 3}
+  - {fileID: 5007372537801984974, guid: 3cb70a29582165e4c974bb19d297af86, type: 3}
   - {fileID: 5975119788708298597, guid: 1d218bb2b73dd9942ae84bbd5fa5a407, type: 3}
-  - {fileID: 3491222826430125242, guid: c2fb58ca870b9374582184852dd722c0, type: 3}
-  - {fileID: 3034775685850836349, guid: ff135a928d8a01a428a6c359215ee389, type: 3}
-  - {fileID: 2540471381880957163, guid: 43225596e3550ea459981096413186f2, type: 3}
+  spawnRate: 1
 --- !u!4 &888006130
 Transform:
   m_ObjectHideFlags: 0
@@ -604,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 1611319330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -10, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 2}
+  m_LocalScale: {x: 3, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
