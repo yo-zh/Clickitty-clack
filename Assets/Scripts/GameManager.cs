@@ -9,25 +9,26 @@ public class GameManager : MonoBehaviour
 {
     private int score;
     private int explosions;
+
+    [Header("GUI")]
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] GameObject explosionsObject;
+
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] Button restartButton;
     [SerializeField] Button quitButton;
 
+    [SerializeField] GameObject titleScreen;
+
     [SerializeField] List<GameObject> targets;
     [SerializeField] private float spawnRate = 1.0f;
 
+    [SerializeField] GameObject explosionsObject;
     public bool isGameActive;
+
     private void Start()
     {
-        isGameActive = true;
-        UpdateScore(0);
-
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(QuitGame);
-
-        StartCoroutine(SpawnTarget());
     }
 
     IEnumerator SpawnTarget()
@@ -61,13 +62,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartGame(int difficulty)
+    {
+        spawnRate /= difficulty;
+        titleScreen.gameObject.SetActive(false);
+        isGameActive = true;
+        UpdateScore(0);
+
+        StartCoroutine(SpawnTarget());
+    }
+
     private void GameOver()
     {
         isGameActive = false;
         gameOverScreen.gameObject.SetActive(true);
     }
 
-    private void RestartGame()
+    [SerializeField] void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
