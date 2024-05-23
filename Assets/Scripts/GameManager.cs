@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private int score;
     private int level;
+
     [SerializeField] int levelMultiplier;
     [SerializeField] float spawnRateAdjustmentForAllDifficulties; // delete after test
     private int explosions;
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnRate = 1.0f;
 
     [SerializeField] GameObject explosionsObject;
+    [SerializeField] GameObject trailObject;
+    [SerializeField] TrailRenderer trail;
     public bool isGameActive;
 
     [Header("Sounds")]
@@ -38,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        trail = trailObject.transform.GetComponent<TrailRenderer>();
+        trail.enabled = false;
         score = 0; 
         level = 1;
         levelText.text = "Level: " + level;
@@ -51,7 +56,17 @@ public class GameManager : MonoBehaviour
         {
             PauseGame();
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            trail.enabled = true;
+        }
+        else
+        {
+            trail.enabled = false;
+        }
     }
+
     IEnumerator SpawnTarget()
     {
         while (isGameActive)
@@ -92,6 +107,7 @@ public class GameManager : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(pingSound, transform.position);
         score = 0;
+        scoreText.text = "Score: " + score;
         level++;
         levelText.text = "Level: " + level;
     }
@@ -114,6 +130,8 @@ public class GameManager : MonoBehaviour
         isGameActive = true;
         UpdateScore(0);
 
+        Cursor.visible = false;
+
         StartCoroutine(SpawnTarget());
     }
 
@@ -121,6 +139,8 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
         gameOverScreen.gameObject.SetActive(true);
+
+        Cursor.visible = true;
     }
 
     [SerializeField] void RestartGame()
@@ -134,12 +154,18 @@ public class GameManager : MonoBehaviour
         {
             isGameActive = false;
             pauseScreen.SetActive(true);
+
+            Cursor.visible = true;
+
             Time.timeScale = 0.0f;
         }
         else
         {
             isGameActive = true;
             pauseScreen.SetActive(false);
+
+            Cursor.visible = false;
+
             Time.timeScale = 1.0f;
         }
     }

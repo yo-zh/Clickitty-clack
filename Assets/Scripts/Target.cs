@@ -24,9 +24,9 @@ public class Target : MonoBehaviour
         transform.position = RandomPosition();
     }
 
-    private void OnMouseDown()
+    private void OnMouseOver()
     {
-        if (gameManager.isGameActive)
+        if (gameManager.isGameActive && Input.GetMouseButton(0))
         {
             Destroy(gameObject);
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
