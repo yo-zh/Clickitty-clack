@@ -35,6 +35,11 @@ public class Target : MonoBehaviour
             if (gameObject.CompareTag("BadTarget"))
             {
                 gameManager.IncreaseExplosions();
+                gameManager.PlayExplosion();
+            }
+            else
+            {
+                gameManager.PlayRandomMeow();
             }
         }
     }

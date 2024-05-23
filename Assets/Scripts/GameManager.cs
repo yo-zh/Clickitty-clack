@@ -4,19 +4,25 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     private int score;
+    private int level;
+    [SerializeField] int levelMultiplier;
+    [SerializeField] float spawnRateAdjustmentForAllDifficulties; // delete after test
     private int explosions;
 
     [Header("GUI")]
     [SerializeField] TextMeshProUGUI scoreText;
-
+    [SerializeField] TextMeshProUGUI levelText;
+    //
     [SerializeField] GameObject gameOverScreen;
+    [SerializeField] GameObject pauseScreen;
     [SerializeField] Button restartButton;
     [SerializeField] Button quitButton;
-
+    //
     [SerializeField] GameObject titleScreen;
 
     [SerializeField] List<GameObject> targets;
@@ -25,20 +31,45 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject explosionsObject;
     public bool isGameActive;
 
+    [Header("Sounds")]
+    [SerializeField] AudioClip[] meowSounds = new AudioClip[5];
+    [SerializeField] AudioClip explosionSound;
+    [SerializeField] AudioClip pingSound;
+
     private void Start()
     {
+        score = 0; 
+        level = 1;
+        levelText.text = "Level: " + level;
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(QuitGame);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PauseGame();
+        }
+    }
     IEnumerator SpawnTarget()
     {
         while (isGameActive)
         {
-            yield return new WaitForSecondsRealtime(spawnRate);
+            yield return new WaitForSeconds(spawnRate);
             int rangomIndex = Random.Range(0, targets.Count);
             Instantiate(targets[rangomIndex]);
         }
+    }
+
+    public void PlayRandomMeow()
+    {
+        AudioClip randomClip = meowSounds[Random.Range(0, meowSounds.Length)];
+        AudioSource.PlayClipAtPoint(randomClip, transform.position);
+    }
+    public void PlayExplosion()
+    {
+        AudioSource.PlayClipAtPoint(explosionSound, transform.position);
     }
 
     public void UpdateScore(int pointsToAdd)
@@ -50,7 +81,21 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+
+        if (score >= level * levelMultiplier)
+        {
+            NextLevel();
+        }
     }
+
+    void NextLevel()
+    {
+        AudioSource.PlayClipAtPoint(pingSound, transform.position);
+        score = 0;
+        level++;
+        levelText.text = "Level: " + level;
+    }
+
     public void IncreaseExplosions()
     {
         explosionsObject.transform.GetChild(explosions).gameObject.GetComponent<RawImage>().color = Color.white;
@@ -64,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
-        spawnRate /= difficulty;
+        spawnRate /= difficulty * spawnRateAdjustmentForAllDifficulties; // delete multiplication after test
         titleScreen.gameObject.SetActive(false);
         isGameActive = true;
         UpdateScore(0);
@@ -81,6 +126,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void PauseGame()
+    {
+        if (isGameActive)
+        {
+            isGameActive = false;
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0.0f;
+        }
+        else
+        {
+            isGameActive = true;
+            pauseScreen.SetActive(false);
+            Time.timeScale = 1.0f;
+        }
     }
 
     private void QuitGame()

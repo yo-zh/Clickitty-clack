@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41680dad0f0243748b4e228f49a2e3c4, type: 2}
+  - {fileID: 2100000, guid: 0e345d4ec2341164cb0d27d3db17f722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -147,5 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  explosionParticle: {fileID: 7383541754210920142, guid: 3eb1e5d299ac48441b660735a3d31c27, type: 3}
-  amountOfPoints: -5
+  explosionParticle: {fileID: 969278227914863773, guid: 99cbb3d9bce0cd342b5190a6c475b280, type: 3}
+  amountOfPoints: -10

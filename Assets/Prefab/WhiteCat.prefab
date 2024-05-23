@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  explosionParticle: {fileID: 969278227914863773, guid: 0fda24ea2738cf143b5eb7e2cafc1224, type: 3}
+  explosionParticle: {fileID: 969278227914863773, guid: 6e0fd233f24ba3a4aadca183f44d7b37, type: 3}
   amountOfPoints: 1
 --- !u!54 &3271127960678563996
 Rigidbody:
